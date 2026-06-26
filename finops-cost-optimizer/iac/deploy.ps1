@@ -42,8 +42,7 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $armApiVersion = '2025-05-01-preview'
-$repoRoot = Split-Path -Parent $PSScriptRoot
-$skillRoot = Join-Path $repoRoot 'finops-cost-optimizer'
+$skillRoot = Split-Path -Parent $PSScriptRoot
 $skillName = 'finops-cost-optimizer'
 
 function Get-AgentEndpoint {

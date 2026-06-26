@@ -9,12 +9,12 @@
 //
 // Deploy:
 //   az deployment group create --resource-group <rg> \
-//     --template-file iac/main.bicep --parameters agentName=<agent>
+//     --template-file finops-cost-optimizer/iac/main.bicep --parameters agentName=<agent>
 //
 // TENANT GATING: the control plane Agent Extensions API is restricted to internal
 // Microsoft tenants in preview. On other tenants these PUTs fail with "Agent
 // Extensions are not available for this tenant". For those tenants use the data
-// plane script ../iac/deploy.ps1 instead, which is the path the portal Builder uses.
+// plane script ./deploy.ps1 instead, which is the path the portal Builder uses.
 
 targetScope = 'resourceGroup'
 
@@ -31,7 +31,7 @@ var costRankSpec = {
   name: 'cost_rank' // CONFIRM
   description: 'Rank Azure subscriptions and resource groups by amortized spend.'
   language: 'python' // CONFIRM
-  code: loadTextContent('../finops-cost-optimizer/tools/cost_rank.py') // CONFIRM
+  code: loadTextContent('../tools/cost_rank.py') // CONFIRM
   identity: 'system' // ARM managed identity. CONFIRM
 }
 
@@ -39,7 +39,7 @@ var commitmentSpec = {
   name: 'commitment_recommendations'
   description: 'Reservation and savings plan recommendations.'
   language: 'python'
-  code: loadTextContent('../finops-cost-optimizer/tools/commitment_recommendations.py')
+  code: loadTextContent('../tools/commitment_recommendations.py')
   identity: 'system'
 }
 
@@ -47,7 +47,7 @@ var reportSpec = {
   name: 'generate_report'
   description: 'Build a self contained HTML FinOps cost optimization report.'
   language: 'python'
-  code: loadTextContent('../finops-cost-optimizer/tools/generate_report.py')
+  code: loadTextContent('../tools/generate_report.py')
   identity: 'none'
 }
 
@@ -80,7 +80,7 @@ resource reportTool 'Microsoft.App/agents/tools@2025-05-01-preview' = {
 var skillSpec = {
   name: 'finops-cost-optimizer' // CONFIRM
   description: 'FinOps cost optimization review across the subscriptions the agent can read. Ranks by spend, detects waste across seven dimensions, and produces an HTML report.'
-  content: loadTextContent('../finops-cost-optimizer/SKILL.md') // CONFIRM (SKILL.md body)
+  content: loadTextContent('../SKILL.md') // CONFIRM (SKILL.md body)
   tools: [ // CONFIRM
     'RunAzCliReadCommands'
     'cost_rank'
@@ -90,23 +90,23 @@ var skillSpec = {
   files: [ // CONFIRM (supporting files)
     {
       path: 'references/ranking-method.md'
-      content: loadTextContent('../finops-cost-optimizer/references/ranking-method.md')
+      content: loadTextContent('../references/ranking-method.md')
     }
     {
       path: 'references/checks-catalog.md'
-      content: loadTextContent('../finops-cost-optimizer/references/checks-catalog.md')
+      content: loadTextContent('../references/checks-catalog.md')
     }
     {
       path: 'references/report-layout.md'
-      content: loadTextContent('../finops-cost-optimizer/references/report-layout.md')
+      content: loadTextContent('../references/report-layout.md')
     }
     {
       path: 'references/permissions-and-scope.md'
-      content: loadTextContent('../finops-cost-optimizer/references/permissions-and-scope.md')
+      content: loadTextContent('../references/permissions-and-scope.md')
     }
     {
       path: 'references/issues-optional.md'
-      content: loadTextContent('../finops-cost-optimizer/references/issues-optional.md')
+      content: loadTextContent('../references/issues-optional.md')
     }
   ]
 }

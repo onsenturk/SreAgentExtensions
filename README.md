@@ -10,6 +10,7 @@ This repository holds the source. The running artifact lives inside the SRE Agen
 - finops-cost-optimizer/references/: supporting reference files the skill follows.
 - finops-cost-optimizer/tools/: the Python tools (cost_rank, commitment_recommendations, generate_report) plus a unit test for the ranking math.
 - finops-cost-optimizer/optional/: an optional custom agent and an optional monthly scheduled task.
+- finops-cost-optimizer/iac/: the deployment assets for this skill (data plane script, Bicep template, README). Each skill carries its own deployment folder.
 
 ## Design summary
 
@@ -30,7 +31,7 @@ This repository holds the source. The running artifact lives inside the SRE Agen
 
 ## Deploy with IaC (alternative)
 
-Instead of the Builder, you can deploy the skill as code. The working path for most tenants is the data plane script iac/deploy.ps1, which PUTs the skill (with the reference files and Python helpers bundled as additionalFiles) to the agent endpoint, the same surface the portal Builder uses. A Bicep control plane template is also included, but the control plane Agent Extensions API is restricted to internal Microsoft tenants in preview. See iac/README.md.
+Instead of the Builder, you can deploy the skill as code. The working path for most tenants is the data plane script finops-cost-optimizer/iac/deploy.ps1, which PUTs the skill (with the reference files and Python helpers bundled as additionalFiles) to the agent endpoint, the same surface the portal Builder uses. A Bicep control plane template is also included, but the control plane Agent Extensions API is restricted to internal Microsoft tenants in preview. See finops-cost-optimizer/iac/README.md.
 
 ## Prerequisites
 

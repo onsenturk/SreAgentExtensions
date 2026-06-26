@@ -41,7 +41,7 @@ The skill schema used (captured from a live agent): properties.description, prop
 main.bicep creates the skill and tools as ARM sub-resources with the base64 envelope. It only succeeds on internal Microsoft tenants. On other tenants it fails with the tenant restriction above; use the data plane script instead.
 
 ```powershell
-az deployment group create --resource-group <rg> --template-file iac/main.bicep --parameters agentName=<agent>
+az deployment group create --resource-group <rg> --template-file finops-cost-optimizer/iac/main.bicep --parameters agentName=<agent>
 ```
 
 ## Notes
